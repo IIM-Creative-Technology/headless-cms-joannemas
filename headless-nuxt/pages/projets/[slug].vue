@@ -17,13 +17,26 @@
                     <a :href="projet.lien" target="_blank">Voir le projet</a>
                 </div>
 
-                <div >
-                <nuxt-link to="/" class="return_button">
-                    <p>Retour</p>
-                </nuxt-link>
-            </div>
-        </div>
+                <div>
+                    <nuxt-link to="/" class="return_button">
+                        <p>Retour</p>
+                    </nuxt-link>
+                </div>
 
+                <div class="buttons_pages">
+                    <div v-if="previousproject">
+                        <nuxt-link :to="`/projets/${previousproject.slug}`" class="previous_button">
+                            <p>Projet précédent</p>
+                        </nuxt-link>
+                    </div>
+                    <div v-if="nextproject">
+                        <nuxt-link :to="`/projets/${nextproject.slug}`" class="next_button">
+                            <p>Projet suivant</p>
+                        </nuxt-link>
+                    </div>
+                </div>
+
+            </div>
             
         </div>
 
@@ -40,6 +53,19 @@ const projet = ref()
 onMounted(async () => {
     projet.value = await findOne(`projets?filters[slug]=${route.params.slug}&populate=deep`)
     projet.value = projet.value.data[0]
+})
+
+const { find } = useStrapi()
+const nextproject = ref()
+const previousproject = ref()
+
+
+onMounted(async () => {
+    const currentSlug = route.params.slug
+    const projects = await find(`projets?populate=deep`)
+    const currentIndex = projects.data.findIndex(project => project.slug === currentSlug)
+    nextproject.value = projects.data[currentIndex + 1] || null
+    previousproject.value = projects.data[currentIndex - 1] || null
 })
 
 
@@ -113,6 +139,35 @@ onMounted(async () => {
         width: max-content;
         color: #ffffff;
         font-size: 1.2em;
+    }
+
+    .buttons_pages {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .previous_button p{
+        background-color: #28dc94;
+        padding: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        width: max-content;
+        color: #ffffff;
+    }
+
+    .next_button p{
+        background-color: #ff0073;
+        padding: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        width: max-content;
+        color: #ffffff;
+    }
+
+    .previous_button, .next_button {
+        text-decoration: none;
     }
 
 

@@ -129,8 +129,7 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 10px;
-    margin-right: 25px; /* espacement entre les cartes */
-    white-space: normal; /* annule la propriété white-space pour le contenu de la carte */
+    margin-right: 25px; 
 }
 
 .card img {
