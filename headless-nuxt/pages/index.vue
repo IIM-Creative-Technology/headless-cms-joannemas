@@ -2,13 +2,9 @@
     <div v-if="projets">
         <h1>Portfolio</h1>
         
-        
-        <!-- <nuxt-link :to="`/projets/${projet.slug}`" v-for="projet in projets.data">
-            <div class="card">
-                {{ projet.name }}
-                <img :src="projet.image.url" alt="" width="50">
-            </div>
-        </nuxt-link> -->
+        <div class="introduction">
+            <p>{{ introduction.data.description }}</p>
+        </div>
         
 
         <div class="projets-container">
@@ -65,7 +61,6 @@
     const projets = ref()
     const types = ref()
     const activeFilter = ref('all')
-    const technologies = ref()
     const introduction = ref()
 
     const filteredProjets = computed(() => {
@@ -91,7 +86,10 @@
 
     onMounted(async () => {
         types.value = await find('types', {populate: 'deep'})
-        console.log(introduction.value);
+    })
+
+    onMounted(async () => {
+        introduction.value = await find('introduction')
     })
 
 
@@ -103,9 +101,19 @@
 h1 {
     text-align: center;
     font-size: 40px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     font-family: Impact;
     letter-spacing: 3px;
+}
+
+.introduction {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 100px;
+    font-family: Verdana;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 50px;
 }
 .projets {
     display: flex;
