@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projets",
+  "info": {
+    "singularName": "projet",
+    "pluralName": "projets",
+    "displayName": "Projet",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "slug": {
+      "type": "uid"
+    },
+    "description": {
+      "type": "text"
+    },
+    "technologies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::technologie.technologie"
+    },
+    "types": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::type.type",
+      "inversedBy": "projets"
+    },
+    "lien": {
+      "type": "string"
+    }
+  }
+}
